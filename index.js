@@ -1,3 +1,6 @@
+const redux = require('redux')
+const createStore = redux.createStore
+
 const CAKE_ORDERED = 'CAKE_ORDERED'
 
 // action defined
@@ -13,7 +16,6 @@ const initialState = {
 }
 
 // reducer
-
 const reducer = (state = initialState, action) => {
   switch(action.type) {
     case CAKE_ORDERED:
@@ -24,3 +26,17 @@ const reducer = (state = initialState, action) => {
       return state
   }
 }
+
+//store created and the responsibilities 
+const store = createStore(reducer)
+console.log('Initial State', store.getState());
+
+const unsubscribe = store.subscribe(() => console.log('Updated State', store.getState()))
+
+store.dispatch(orderCake())
+store.dispatch(orderCake())
+store.dispatch(orderCake())
+
+unsubscribe()
+
+store.dispatch(orderCake())
