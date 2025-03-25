@@ -1,5 +1,5 @@
 const redux = require('redux')
-const thunkMiddleware = require('redux-thunk').default
+const thunkMiddleware = require('redux-thunk')
 const axios = require('axios')
 const createStore = redux.createStore
 const applyMiddleware = redux.applyMiddleware
@@ -73,10 +73,11 @@ const fetchUsers = () => {
   }
 }
 
-const store = createStore(reducer, applyMiddleware(thunkMiddleware))
+const store = createStore(reducer, applyMiddleware(thunkMiddleware.thunk))
 
 const unsubscribe = store.subscribe(() => {
-  store.getState()
+  console.log(store.getState());
+  
 })
 
 store.dispatch(fetchUsers())
