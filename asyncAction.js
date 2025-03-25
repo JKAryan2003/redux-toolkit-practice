@@ -1,5 +1,11 @@
 const redux = require('redux')
+const thunkMiddleware = require('redux-thunk').default
+const axios = require('axios')
 const createStore = redux.createStore
+const applyMiddleware = redux.applyMiddleware
+
+const reduxLogger = require('redux-logger')
+const logger = reduxLogger.createLogger()
 
 const initialState = {
   loading: false,
@@ -53,4 +59,24 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-const store = createStore(reducer)
+//thunk middleware helps in returning a function from a action creator
+const fetchUsers = () => {
+  return function(dispatch) {
+    dispatch(fetchUsersRequested())
+    axios.get('https://jsonplaceholder.typicode.com/users')
+    .then(response => {
+      const users = response.data.map((user) => user.id)
+      dispatch(fetchUsersSucceded(users))
+    }).catch(error => {
+      dispatch(fetchUsersFailed(error.message))
+    })
+  }
+}
+
+const store = createStore(reducer, applyMiddleware(thunkMiddleware))
+
+const unsubscribe = store.subscribe(() => {
+  store.getState()
+})
+
+store.dispatch(fetchUsers())
