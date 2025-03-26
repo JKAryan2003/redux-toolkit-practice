@@ -3,7 +3,7 @@ import React from 'react'
 const UserView = () => {
   return (
     <div>
-      List of Users
+      <h2>List of Users</h2>
     </div>
   )
 }
