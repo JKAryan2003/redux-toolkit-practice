@@ -126,6 +126,7 @@ const logger = reduxLogger.createLogger()
 const store = require('./src/app/store')
 const cakeActions = require('./src/features/cake/cakeSlice').cakeActions
 
+
 console.log('Initial state', store.getState());
 const unsubscribe = store.subscribe(() => {
   console.log('Updated state', store.getState());
@@ -135,5 +136,7 @@ store.dispatch(cakeActions.ordered())
 store.dispatch(cakeActions.ordered())
 store.dispatch(cakeActions.ordered())
 store.dispatch(cakeActions.restocked(3))
+
+
 
 unsubscribe()
